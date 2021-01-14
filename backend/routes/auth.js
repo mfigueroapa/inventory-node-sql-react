@@ -1,13 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const passport = require('../config/passport');
+const passport = require('passport');
+const bcrypt = require("bcrypt");
 
-router.post('/signup', (req, res, next) => {
-  User.register(req.body, req.body.password)
-    .then((user) => res.status(201).json({ user }))
-    .catch((err) => res.status(500).json({ err }));
-});
+router.post('/signup', async (req, res, next) => {
+  const {
+    email,
+    password
+  } = req.body
+  console.log(email, password)
+  if (!email || !password ) {
+    return res.status(500).json({ err: "Empty fields" })
+  }
+  // const user = await User.findOne({
+  //   email
+  // })
+  // if (user) {
+  //   return res.status(500).json({ err: "user exists" })
+  // }
+  const salt = bcrypt.genSaltSync(12)
+  const hashPass = bcrypt.hashSync(password, salt)
+  await User.create({
+    email,
+    password: hashPass
+  })
+  return res.status(200).json({message: "success"})
+})
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const { user } = req;

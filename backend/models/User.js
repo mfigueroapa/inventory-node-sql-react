@@ -1,17 +1,17 @@
-const { Schema, model } = require('mongoose');
-const PLM = require('passport-local-mongoose');
+const { Sequelize } = require("sequelize")
+const sequelize = require("./")
 
-const userSchema = new Schema(
+const User = sequelize.define(
+  "user",
   {
-    email: String,
-    name: String
+    email: Sequelize.STRING,
+    password: Sequelize.STRING,
   },
   {
     timestamps: true,
-    versionKey: false
+    versionKey: false,
   }
-);
+)
 
-userSchema.plugin(PLM, { usernameField: 'email' });
 
-module.exports = model('User', userSchema);
+module.exports = User
