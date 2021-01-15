@@ -1,7 +1,7 @@
-const router = require('express').Router();
+const router = require("express").Router()
 const passport = require("passport")
-const { create, login, logout, profile } = require('../controllers/auth');
-const {isAuth} = require('../middlewares')
+const { create, login, logout, profile } = require("../controllers/auth")
+const { isAuth } = require("../middlewares")
 
 router.post("/signup", create)
 router.post("/login", passport.authenticate("local"), login)
