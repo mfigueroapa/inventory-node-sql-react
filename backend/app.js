@@ -12,11 +12,11 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store)
 
 //Database config
 const sequelize = require("./models")
-sequelize.sync()
+// sequelize.sync()
 // // drop the table if it already exists
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
+sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and re-sync db.");
+});
 
 const app_name = require("./package.json").name
 const debug = require("debug")(
@@ -56,6 +56,7 @@ app.use(logger("dev"))
 
 app.use("/", require("./routes"))
 app.use("/auth", require("./routes/auth"))
+app.use("/product", require("./routes/product"))
 
 // Uncomment this line for production
 // app.get('/*', (req, res) => res.sendFile(__dirname + '/public/index.html'));
