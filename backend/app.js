@@ -8,6 +8,7 @@ const path = require("path")
 const cors = require("cors")
 const session = require("express-session")
 const passport = require("./config/passport")
+const SequelizeStore = require("connect-session-sequelize")(session.Store)
 
 //Database config
 const sequelize = require("./models")
@@ -34,9 +35,12 @@ app.use(
 app.use(
   session({
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     secret: process.env.SECRET,
     cookie: { maxAge: 1000 * 60 * 60 },
+    store: new SequelizeStore({
+      db: sequelize,
+    })
   })
 )
 
