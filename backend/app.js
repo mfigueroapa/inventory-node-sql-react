@@ -12,8 +12,11 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store)
 
 //Database config
 const sequelize = require("./models")
+
+//Uncomment to not drop table
 // sequelize.sync()
-// // drop the table if it already exists
+
+// Uncomment to drop the table if it already exists
 sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
 });
