@@ -9,6 +9,6 @@ const {
 router.get("/", findAll)
 router.post("/create", create)
 router.post("/delete/:id", deleteProduct)
-router.put("/update/:id", update)
+router.put("/update/", update)
 
 module.exports = router

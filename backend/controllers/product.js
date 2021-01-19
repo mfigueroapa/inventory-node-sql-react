@@ -59,14 +59,21 @@ exports.deleteProduct = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  const { id } = req.params
-  Product.update(req.body, {
-    where: { id: id },
-  })
+  const { id, name, description } = req.body
+  Product.update(
+    {
+      name,
+      description,
+    },
+    {
+      where: { id: id },
+    }
+  )
     .then((num) => {
       if (num == 1) {
         res.send({
           message: "Product was updated successfully.",
+          product: { id, name, description },
         })
       } else {
         res.send({
