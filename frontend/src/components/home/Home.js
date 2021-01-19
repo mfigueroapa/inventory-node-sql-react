@@ -2,9 +2,11 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { findAll, deleteProduct } from "../../services/product"
 import "./Home.scss"
+import AddModal from "../AddModal"
 
 const Home = () => {
   const [products, setProducts] = useState([])
+  const [addModalIsOpen, setAddModalIsOpen] = useState(false)
 
   useEffect(() => {
     async function getProducts() {
@@ -13,15 +15,17 @@ const Home = () => {
     }
     getProducts()
   }, [])
-  console.log(products)
 
   const deleteHandle = (id) => {
     deleteProduct(id)
       .then((response) => {
-        console.log(response)
-        setProducts(products.filter(product => product.id !== id))
+        setProducts(products.filter((product) => product.id !== id))
       })
       .catch((err) => console.log(err))
+  }
+
+  const addModalToggle = () => {
+    setAddModalIsOpen(!addModalIsOpen)
   }
 
   return (
@@ -32,6 +36,7 @@ const Home = () => {
             <div className="products-titles">
               <b className="product-title">PRODUCT&nbsp;</b>
               <b className="description-title">DESCRIPTION&nbsp;</b>
+              <i className="fa fa-plus" onClick={() => addModalToggle()}></i>
             </div>
             {products.map((product) => (
               <div className="products" key={product.id}>
@@ -56,6 +61,11 @@ const Home = () => {
           </div>
         )}
       </div>
+      <AddModal
+        isOpen={addModalIsOpen}
+        toggle={() => addModalToggle()}
+        setProducts={setProducts}
+      />
     </div>
   )
 }
